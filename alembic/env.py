@@ -1,19 +1,24 @@
-import asyncio
 from logging.config import fileConfig
-from sqlalchemy.engine import Connection, engine_from_config
+
+# Duvidoso
+import asyncio
 from sqlalchemy.ext.asyncio import async_engine_from_config
+# Duvidoso
+
+from sqlalchemy.engine import Connection, engine_from_config
+#from sqlalchemy.ext.asyncio import async_engine_from_config
 from sqlalchemy import pool
 from alembic import context
 
-from api.contrib.models import Base
-from api.models.main import *
+from api.contrib.models import BaseModel
+from api.models.main import AtletaModel, CategoriaModel, CentroTreinamentoModel
 
 config = context.config
 
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
-target_metadata = Base.metadata
+target_metadata = BaseModel.metadata
 
 
 
@@ -37,7 +42,7 @@ def do_run_migrations(connection: Connection) -> None:
     with context.begin_transaction():
         context.run_migrations()
     
-async def run_async_migrations()-> None:
+async def run_async_migrations() -> None:
     
     connectable = async_engine_from_config(
         config.get_section(config.config_ini_section, {}),
@@ -45,11 +50,11 @@ async def run_async_migrations()-> None:
         poolclass=pool.NullPool,
     )
     async with connectable.connect() as connection:
-        await connection.run_sync(do_run_migrations())
+        await connection.run_sync(do_run_migrations)
 
 def run_migrations_online() -> None:
 
-    asyncio.run(run_async_migrations)
+    asyncio.run(run_async_migrations())
 
 
 if context.is_offline_mode():
