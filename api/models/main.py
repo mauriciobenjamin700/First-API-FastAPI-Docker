@@ -1,10 +1,18 @@
+"""
+Classes que representam as tabelas do banco de dados:
+
+    - AtletaModel - Representa a tabela 'atletas'
+    - CategoriaModel - Representa a tabela 'categorias'
+    - CentroTreinamentoModel - Representa a tabela 'centros_treinamento'
+
+"""
 from datetime import datetime
 from sqlalchemy import ForeignKey, Integer, String, Float, DateTime
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from api.contrib.models import Base
+from api.contrib.models import BaseModel
 
-class AtletaModel(Base):
+class AtletaModel(BaseModel):
     __tablename__ = "atletas"
 
     pk_id: Mapped[int] = mapped_column(Integer, primary_key=True)
@@ -20,7 +28,7 @@ class AtletaModel(Base):
     centro_treinamento: Mapped["CentroTreinamentoModel"] = relationship(back_populates="atleta")
     centro_treinamento_id: Mapped[int] = mapped_column(ForeignKey("centros_treinamento.pk_id"))
 
-class CentroTreinamentoModel(Base):
+class CentroTreinamentoModel(BaseModel):
     __tablename__ = "centros_treinamento"
 
     pk_id: Mapped[int] = mapped_column(Integer, primary_key=True)
@@ -29,7 +37,7 @@ class CentroTreinamentoModel(Base):
     proprietario: Mapped[str] = mapped_column(String(30), nullable=False)
     atleta: Mapped["AtletaModel"] = relationship(back_populates="centros_treinamento")
 
-class CategoriaModel(Base):
+class CategoriaModel(BaseModel):
     __tablename__ = "categorias"
 
     pk_id: Mapped[int] = mapped_column(Integer, primary_key=True)
