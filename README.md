@@ -38,4 +38,4 @@ Passos para Subir o Servidor usando PowerShell
 - Abra o Terminal
 - execute `.\run.ps1 -task server`
 
-Resolver problemas e ir pra aula 7
+## TODO: Parei na aula 8
